@@ -24,6 +24,7 @@ import {
   DialogFooter,
   StatusBar,
   StatusIndicator,
+  CrodaDashboard,
   themesWithCroda,
   cn
 } from '../index';
@@ -42,9 +43,10 @@ const components = [
   { id: 'progressbar', name: 'ProgressBar', category: 'Feedback' },
   { id: 'metriccard', name: 'MetricCard', category: 'Data Display' },
   { id: 'statusbar', name: 'StatusBar', category: 'Layout' },
+  { id: 'dashboard', name: 'CRODA Dashboard', category: 'Examples' },
 ];
 
-const categories = ['Forms', 'Layout', 'Navigation', 'Overlay', 'Data Display', 'Feedback'];
+const categories = ['Forms', 'Layout', 'Navigation', 'Overlay', 'Data Display', 'Feedback', 'Examples'];
 
 function CodeBlock({ code, language = 'tsx' }: { code: string; language?: string }) {
   const [copied, setCopied] = useState(false);
@@ -487,6 +489,41 @@ const [open, setOpen] = useState(false);
   <div className="ml-auto">v1.0.0</div>
 </StatusBar>`}
             />
+          )}
+
+          {activeComponent === 'dashboard' && (
+            <div id="dashboard" className="scroll-mt-20">
+              <h2 className="text-2xl font-header font-bold mb-2">CRODA Dashboard</h2>
+              <p className="text-muted mb-6">Full-featured dashboard example using all UI kit components.</p>
+              
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-sm font-semibold text-muted uppercase tracking-wider mb-3">Live Demo</h3>
+                  <div className="border border-muted/20 rounded-lg overflow-hidden">
+                    <div className="h-[600px]">
+                      <CrodaDashboard />
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="text-sm font-semibold text-muted uppercase tracking-wider mb-3">Usage</h3>
+                  <CodeBlock code={`import { CrodaDashboard } from './ui-kit';
+
+// Use as a standalone page
+<CrodaDashboard />
+
+// Or import individual components:
+import { 
+  Dropdown, 
+  NavTabs, 
+  EntityList, 
+  MetricCard,
+  StatusBar 
+} from './ui-kit';`} />
+                </div>
+              </div>
+            </div>
           )}
         </main>
       </div>
