@@ -57,6 +57,9 @@ export { themes } from './theme/tokens';
 export { crodaTheme, themesWithCroda } from './theme/croda';
 export type { ThemeName, ThemeMode, ThemeTokens, ThemeConfig } from './theme/types';
 
+// Pages
+export { default as CrodaDashboard } from './pages/CrodaDashboard';
+
 // Re-export Blueprint intents and common types
 export { Intent, Classes } from '@blueprintjs/core';
 export type { TreeNode as ITreeNode } from '@blueprintjs/core';
