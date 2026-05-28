@@ -19,9 +19,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const root = document.documentElement;
     root.setAttribute('data-theme', theme);
     if (mode === 'dark') {
-      root.classList.add('dark', 'bp5-dark');
+      root.classList.add('dark');
     } else {
-      root.classList.remove('dark', 'bp5-dark');
+      root.classList.remove('dark');
     }
   }, [theme, mode]);
 

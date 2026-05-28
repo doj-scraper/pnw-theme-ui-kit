@@ -1,18 +1,21 @@
-import { ReactNode } from 'react';
-import { Card as BPCard, CardProps as BPCardProps } from '@blueprintjs/core';
+import { forwardRef, HTMLAttributes } from 'react';
+import { cn } from '../../lib/utils';
 
-export interface CardProps extends Omit<BPCardProps, 'className'> {
-  children?: ReactNode;
-  className?: string;
-}
+export interface CardProps extends HTMLAttributes<HTMLDivElement> {}
 
-export function Card({ children, className = '', ...props }: CardProps) {
-  return (
-    <BPCard 
-      className={`bg-surface border border-muted/20 shadow-sm rounded-md ${className}`}
-      {...props}
-    >
-      {children}
-    </BPCard>
-  );
-}
+export const Card = forwardRef<HTMLDivElement, CardProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          'rounded-md border border-muted/20 bg-surface p-6 shadow-sm',
+          className
+        )}
+        {...props}
+      />
+    );
+  }
+);
+
+Card.displayName = 'Card';

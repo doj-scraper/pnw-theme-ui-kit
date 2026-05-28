@@ -15,3 +15,6 @@ export function DateRangeInput({ className = '', ...props }: DateRangeInputProps
     </div>
   );
 }
+
+// Note: DateRangeInput still uses Blueprint.js datetime picker
+// To fully remove Blueprint, replace with react-day-picker or similar

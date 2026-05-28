@@ -1,23 +1,85 @@
-import { ReactNode } from 'react';
-import { Table2 as BPTable, Column, Cell, Table2Props } from '@blueprintjs/table';
+import { HTMLAttributes, forwardRef } from 'react';
+import { cn } from '../../lib/utils';
 
-export interface TableProps extends Table2Props {
-  children?: ReactNode;
-}
+export interface TableProps extends HTMLAttributes<HTMLTableElement> {}
 
-export function Table(props: TableProps) {
-  return (
-    <div className="custom-table-wrapper">
-      <style>{`
-        .custom-table-wrapper .bp5-table-container { background-color: transparent; border-top: none; border-bottom: none; }
-        .custom-table-wrapper .bp5-table-header { background-color: var(--color-surface); color: var(--color-text); font-family: var(--font-header); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; border-color: color-mix(in srgb, var(--color-muted) 20%, transparent); box-shadow: none; }
-        .custom-table-wrapper .bp5-table-cell { background-color: var(--color-bg); border-color: color-mix(in srgb, var(--color-muted) 10%, transparent); color: var(--color-text); transition: background-color 0.2s; box-shadow: none; }
-        .custom-table-wrapper .bp5-table-cell:hover { background-color: color-mix(in srgb, var(--color-muted) 5%, transparent); }
-        .custom-table-wrapper .bp5-table-row-name { background-color: var(--color-surface); border-color: color-mix(in srgb, var(--color-muted) 20%, transparent); color: var(--color-muted); }
-      `}</style>
-      <BPTable {...props} />
+export const Table = forwardRef<HTMLTableElement, TableProps>(
+  ({ className, ...props }, ref) => (
+    <div className="relative w-full overflow-auto">
+      <table
+        ref={ref}
+        className={cn('w-full caption-bottom text-sm', className)}
+        {...props}
+      />
     </div>
-  );
-}
+  )
+);
+Table.displayName = 'Table';
 
-export { Column, Cell };
+export const TableHeader = forwardRef<
+  HTMLTableSectionElement,
+  HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+  <thead ref={ref} className={cn('[&_tr]:border-b', className)} {...props} />
+));
+TableHeader.displayName = 'TableHeader';
+
+export const TableBody = forwardRef<
+  HTMLTableSectionElement,
+  HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+  <tbody
+    ref={ref}
+    className={cn('[&_tr:last-child]:border-0', className)}
+    {...props}
+  />
+));
+TableBody.displayName = 'TableBody';
+
+export const TableRow = forwardRef<
+  HTMLTableRowElement,
+  HTMLAttributes<HTMLTableRowElement>
+>(({ className, ...props }, ref) => (
+  <tr
+    ref={ref}
+    className={cn(
+      'border-b border-muted/10 transition-colors hover:bg-muted/5',
+      'data-[state=selected]:bg-muted/10',
+      className
+    )}
+    {...props}
+  />
+));
+TableRow.displayName = 'TableRow';
+
+export const TableHead = forwardRef<
+  HTMLTableCellElement,
+  HTMLAttributes<HTMLTableCellElement>
+>(({ className, ...props }, ref) => (
+  <th
+    ref={ref}
+    className={cn(
+      'h-10 px-4 text-left align-middle font-medium text-muted',
+      '[&:has([role=checkbox])]:pr-0',
+      className
+    )}
+    {...props}
+  />
+));
+TableHead.displayName = 'TableHead';
+
+export const TableCell = forwardRef<
+  HTMLTableCellElement,
+  HTMLAttributes<HTMLTableCellElement>
+>(({ className, ...props }, ref) => (
+  <td
+    ref={ref}
+    className={cn('p-4 align-middle [&:has([role=checkbox])]:pr-0', className)}
+    {...props}
+  />
+));
+TableCell.displayName = 'TableCell';
+
+// Legacy aliases for compatibility
+export const Column = TableHead;
+export const Cell = TableCell;

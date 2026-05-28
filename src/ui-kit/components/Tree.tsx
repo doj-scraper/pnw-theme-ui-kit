@@ -1,21 +1,76 @@
-import { Tree as BPTree, TreeProps as BPTreeProps } from '@blueprintjs/core';
+import { useState, HTMLAttributes } from 'react';
+import { cn } from '../../lib/utils';
 
-export interface TreeProps extends Omit<BPTreeProps, 'className'> {
-  className?: string;
+export interface TreeNode {
+  id: string | number;
+  label: string;
+  icon?: string;
+  isExpanded?: boolean;
+  isSelected?: boolean;
+  hasCaret?: boolean;
+  childNodes?: TreeNode[];
 }
 
-export function Tree({ className = '', ...props }: TreeProps) {
+export interface TreeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+  contents: TreeNode[];
+  onNodeClick?: (node: TreeNode, path: number[]) => void;
+  onNodeCollapse?: (node: TreeNode, path: number[]) => void;
+  onNodeExpand?: (node: TreeNode, path: number[]) => void;
+}
+
+export function Tree({ 
+  contents, 
+  onNodeClick, 
+  onNodeCollapse, 
+  onNodeExpand,
+  className,
+  ...props 
+}: TreeProps) {
+  const renderNode = (node: TreeNode, path: number[]) => {
+    const hasChildren = node.childNodes && node.childNodes.length > 0;
+    const showCaret = node.hasCaret !== false && hasChildren;
+
+    return (
+      <div key={node.id} className="select-none">
+        <div
+          className={cn(
+            'flex items-center gap-2 px-2 py-1.5 rounded cursor-pointer transition-colors',
+            'hover:bg-muted/10',
+            node.isSelected && 'bg-primary text-white hover:bg-primary/90',
+            !node.isSelected && 'text-text'
+          )}
+          onClick={() => {
+            if (showCaret && node.isExpanded) {
+              onNodeCollapse?.(node, path);
+            } else if (showCaret && !node.isExpanded) {
+              onNodeExpand?.(node, path);
+            }
+            onNodeClick?.(node, path);
+          }}
+        >
+          {showCaret && (
+            <span className="text-xs">
+              {node.isExpanded ? '▼' : '▶'}
+            </span>
+          )}
+          {!showCaret && <span className="w-3" />}
+          {node.icon && <span className="text-sm">{node.icon}</span>}
+          <span className="text-sm">{node.label}</span>
+        </div>
+        {node.isExpanded && hasChildren && (
+          <div className="ml-4 mt-1">
+            {node.childNodes!.map((child, idx) => 
+              renderNode(child, [...path, idx])
+            )}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
-    <div className="bp5-tree-custom">
-      <style>{`
-        .bp5-tree-custom .bp5-tree-node-content:hover { background-color: var(--color-bg); opacity: 0.8; }
-        .bp5-tree-custom .bp5-tree-node-content.bp5-tree-node-selected { background-color: var(--color-primary); }
-        .bp5-tree-custom .bp5-tree-node-selected .bp5-tree-node-label,
-        .bp5-tree-custom .bp5-tree-node-selected .bp5-icon { color: var(--color-bg); }
-        .bp5-tree-custom .bp5-tree-node-content { border-radius: 4px; padding: 2px 4px; font-family: var(--font-body); color: var(--color-text); }
-        .bp5-tree-custom .bp5-icon { color: var(--color-muted); }
-      `}</style>
-      <BPTree className={`text-sm ${className}`} {...props} />
+    <div className={cn('text-sm', className)} {...props}>
+      {contents.map((node, idx) => renderNode(node, [idx]))}
     </div>
   );
 }

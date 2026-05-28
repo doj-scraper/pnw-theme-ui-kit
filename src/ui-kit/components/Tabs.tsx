@@ -1,24 +1,59 @@
-import { ReactNode } from 'react';
-import { Tabs as BPTabs, Tab as BPTab, TabsProps as BPTabsProps, TabProps as BPTabProps } from '@blueprintjs/core';
+import * as TabsPrimitive from '@radix-ui/react-tabs';
+import { cn } from '../../lib/utils';
+import { forwardRef } from 'react';
 
-export interface TabsProps extends Omit<BPTabsProps, 'className'> {
-  children?: ReactNode;
-  className?: string;
-}
-export interface TabProps extends BPTabProps {}
+export const Tabs = TabsPrimitive.Root;
 
-export function Tabs({ className = '', ...props }: TabsProps) {
-  return (
-    <div className="bp5-tabs-custom">
-      <style>{`
-        .bp5-tabs-custom .bp5-tab-list { border-bottom: 1px solid color-mix(in srgb, var(--color-muted) 20%, transparent); margin-bottom: 16px; }
-        .bp5-tabs-custom .bp5-tab { font-family: var(--font-header); font-weight: 500; font-size: 0.875rem; color: var(--color-muted); padding-bottom: 8px; margin-right: 24px; box-shadow: none !important; border: none; }
-        .bp5-tabs-custom .bp5-tab[aria-selected="true"], .bp5-tabs-custom .bp5-tab:hover { color: var(--color-primary); }
-        .bp5-tabs-custom .bp5-tab-indicator { background-color: var(--color-primary); height: 2px; }
-      `}</style>
-      <BPTabs className={className} {...props} />
-    </div>
-  );
-}
+export const TabsList = forwardRef<
+  React.ElementRef<typeof TabsPrimitive.List>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
+>(({ className, ...props }, ref) => (
+  <TabsPrimitive.List
+    ref={ref}
+    className={cn(
+      'inline-flex h-10 items-center justify-center rounded-md bg-surface p-1 text-muted',
+      className
+    )}
+    {...props}
+  />
+));
+TabsList.displayName = TabsPrimitive.List.displayName;
 
-export const Tab = BPTab;
+export const TabsTrigger = forwardRef<
+  React.ElementRef<typeof TabsPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
+>(({ className, ...props }, ref) => (
+  <TabsPrimitive.Trigger
+    ref={ref}
+    className={cn(
+      'inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5',
+      'text-sm font-medium ring-offset-bg transition-all',
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+      'disabled:pointer-events-none disabled:opacity-50',
+      'data-[state=active]:bg-bg data-[state=active]:text-text data-[state=active]:shadow-sm',
+      className
+    )}
+    {...props}
+  />
+));
+TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
+
+export const TabsContent = forwardRef<
+  React.ElementRef<typeof TabsPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
+>(({ className, ...props }, ref) => (
+  <TabsPrimitive.Content
+    ref={ref}
+    className={cn(
+      'mt-2 ring-offset-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+      className
+    )}
+    {...props}
+  />
+));
+TabsContent.displayName = TabsPrimitive.Content.displayName;
+
+// Legacy aliases for compatibility
+export const Tab = TabsTrigger;
+export type TabsProps = React.ComponentPropsWithoutRef<typeof Tabs>;
+export type TabProps = React.ComponentPropsWithoutRef<typeof TabsTrigger>;

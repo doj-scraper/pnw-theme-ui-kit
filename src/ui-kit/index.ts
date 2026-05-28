@@ -10,16 +10,34 @@ export type { CardProps } from './components/Card';
 export { Select } from './components/Select';
 export type { SelectProps } from './components/Select';
 
-export { Dialog, DialogBody, DialogFooter } from './components/Dialog';
+export { 
+  Dialog, 
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+  DialogBody 
+} from './components/Dialog';
 export type { DialogProps } from './components/Dialog';
 
-export { Table, Column, Cell } from './components/Table';
+export { 
+  Table, 
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  Column, 
+  Cell 
+} from './components/Table';
 export type { TableProps } from './components/Table';
 
 export { Tree } from './components/Tree';
-export type { TreeProps } from './components/Tree';
+export type { TreeProps, TreeNode } from './components/Tree';
 
-export { Tabs, Tab } from './components/Tabs';
+export { Tabs, TabsList, TabsTrigger, TabsContent, Tab } from './components/Tabs';
 export type { TabsProps, TabProps } from './components/Tabs';
 
 export { Tag } from './components/Tag';
@@ -28,7 +46,7 @@ export type { TagProps } from './components/Tag';
 export { Callout } from './components/Callout';
 export type { CalloutProps } from './components/Callout';
 
-export { FormGroup } from './components/FormGroup';
+export { FormGroup, Label } from './components/FormGroup';
 export type { FormGroupProps } from './components/FormGroup';
 
 export { DateRangeInput } from './components/DateRangeInput';
@@ -60,6 +78,5 @@ export type { ThemeName, ThemeMode, ThemeTokens, ThemeConfig } from './theme/typ
 // Pages
 export { default as CrodaDashboard } from './pages/CrodaDashboard';
 
-// Re-export Blueprint intents and common types
-export { Intent, Classes } from '@blueprintjs/core';
-export type { TreeNode as ITreeNode } from '@blueprintjs/core';
+// Utilities
+export { cn } from '../lib/utils';
