@@ -34,8 +34,27 @@ export type { FormGroupProps } from './components/FormGroup';
 export { DateRangeInput } from './components/DateRangeInput';
 export type { DateRangeInputProps } from './components/DateRangeInput';
 
+export { Dropdown } from './components/Dropdown';
+export type { DropdownProps, DropdownItem } from './components/Dropdown';
+
+export { StatusBar, StatusIndicator } from './components/StatusBar';
+export type { StatusBarProps, StatusIndicatorProps } from './components/StatusBar';
+
+export { NavTabs, NavTab } from './components/NavTabs';
+export type { NavTabsProps, NavTabProps } from './components/NavTabs';
+
+export { ProgressBar } from './components/ProgressBar';
+export type { ProgressBarProps } from './components/ProgressBar';
+
+export { EntityList, EntitySection, EntityItem } from './components/EntityList';
+export type { EntityListProps, EntitySectionProps, EntityItemProps } from './components/EntityList';
+
+export { MetricCard, CardGrid } from './components/MetricCard';
+export type { MetricCardProps, CardGridProps } from './components/MetricCard';
+
 export { ThemeProvider, useTheme } from './theme/ThemeProvider';
 export { themes } from './theme/tokens';
+export { crodaTheme, themesWithCroda } from './theme/croda';
 export type { ThemeName, ThemeMode, ThemeTokens, ThemeConfig } from './theme/types';
 
 // Re-export Blueprint intents and common types

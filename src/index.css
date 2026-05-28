@@ -91,6 +91,26 @@
     --theme-primary: #2B95D6;
     --theme-muted: #8A9BA8;
   }
+
+  [data-theme="croda"] {
+    --theme-bg: #f5f5f5;
+    --theme-surface: #ffffff;
+    --theme-text: #1a1a1a;
+    --theme-primary: #10b981;
+    --theme-muted: #6b7280;
+    --theme-font-header: "Barlow Condensed", sans-serif;
+    --theme-font-body: "DM Sans", sans-serif;
+  }
+
+  .dark[data-theme="croda"] {
+    --theme-bg: #030704;
+    --theme-surface: rgba(7, 12, 9, 0.94);
+    --theme-text: #edf7f1;
+    --theme-primary: #10b981;
+    --theme-muted: #7aa88c;
+    --theme-font-header: "Barlow Condensed", sans-serif;
+    --theme-font-body: "DM Sans", sans-serif;
+  }
   
   body {
     @apply bg-bg text-text font-body antialiased transition-colors duration-300;

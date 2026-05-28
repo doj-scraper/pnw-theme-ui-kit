@@ -1,4 +1,4 @@
-export type ThemeName = 'canopy' | 'monolith' | 'basalt' | 'blueprint';
+export type ThemeName = 'canopy' | 'monolith' | 'basalt' | 'blueprint' | 'croda';
 export type ThemeMode = 'light' | 'dark';
 
 export interface ThemeTokens {
