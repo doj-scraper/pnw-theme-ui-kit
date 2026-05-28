@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-bg: var(--theme-bg);
+  --color-surface: var(--theme-surface);
+  --color-text: var(--theme-text);
+  --color-primary: var(--theme-primary);
+  --color-muted: var(--theme-muted);
+
+  --font-header: var(--theme-font-header);
+  --font-body: var(--theme-font-body);
+}
+
+@layer base {
+  :root {
+    --theme-bg: #F2F4F1;
+    --theme-surface: #E5EAE4;
+    --theme-text: #14231C;
+    --theme-primary: #2D5A43;
+    --theme-muted: #5E8C6A;
+    --theme-font-header: "Plus Jakarta Sans", "Inter", sans-serif;
+    --theme-font-body: "Inter", sans-serif;
+  }
+
+  [data-theme="canopy"] {
+    --theme-bg: #F2F4F1;
+    --theme-surface: #E5EAE4;
+    --theme-text: #14231C;
+    --theme-primary: #2D5A43;
+    --theme-muted: #5E8C6A;
+    --theme-font-header: "Plus Jakarta Sans", "Inter", sans-serif;
+    --theme-font-body: "Inter", sans-serif;
+  }
+  .dark[data-theme="canopy"] {
+    --theme-bg: #0B100D;
+    --theme-surface: #131C18;
+    --theme-text: #E4EAE6;
+    --theme-primary: #4A8B64;
+    --theme-muted: #7A9385;
+  }
+
+  [data-theme="monolith"] {
+    --theme-bg: #EFECE6;
+    --theme-surface: #E2DDD5;
+    --theme-text: #1E252B;
+    --theme-primary: #3A525C;
+    --theme-muted: #6B7F88;
+    --theme-font-header: "Space Grotesk", sans-serif;
+    --theme-font-body: system-ui, -apple-system, sans-serif;
+  }
+  .dark[data-theme="monolith"] {
+    --theme-bg: #11161A;
+    --theme-surface: #1A2127;
+    --theme-text: #ECEFF1;
+    --theme-primary: #527987;
+    --theme-muted: #90A4AE;
+  }
+
+  [data-theme="basalt"] {
+    --theme-bg: #EAEAEA;
+    --theme-surface: #DDDDDD;
+    --theme-text: #121212;
+    --theme-primary: #C26D09;
+    --theme-muted: #666666;
+    --theme-font-header: "Geist", "Geist Sans", sans-serif;
+    --theme-font-body: "Geist Mono", monospace;
+  }
+  .dark[data-theme="basalt"] {
+    --theme-bg: #090909;
+    --theme-surface: #161616;
+    --theme-text: #E4E4E7;
+    --theme-primary: #F59E0B;
+    --theme-muted: #71717A;
+  }
+
+  [data-theme="blueprint"] {
+    --theme-bg: #E1E8ED;
+    --theme-surface: #F5F8FA;
+    --theme-text: #1C2127;
+    --theme-primary: #106BA3;
+    --theme-muted: #5C7080;
+    --theme-font-header: -apple-system, "Inter", "Segoe UI", sans-serif;
+    --theme-font-body: -apple-system, "Inter", "Segoe UI", sans-serif;
+  }
+
+  .dark[data-theme="blueprint"] {
+    --theme-bg: #293742;
+    --theme-surface: #30404D;
+    --theme-text: #F5F8FA;
+    --theme-primary: #2B95D6;
+    --theme-muted: #8A9BA8;
+  }
+  
+  body {
+    @apply bg-bg text-text font-body antialiased transition-colors duration-300;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-header font-bold tracking-tight;
+  }
+}

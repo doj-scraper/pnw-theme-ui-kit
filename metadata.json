@@ -1,0 +1,8 @@
+{
+  "name": "Remix: PNW Theme Showroom",
+  "description": "Showcase of Pacific Northwest-inspired responsive themes with dynamic color palettes and typography.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
