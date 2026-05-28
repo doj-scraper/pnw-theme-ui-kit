@@ -1,10 +1,10 @@
-import { forwardRef, HTMLAttributes } from 'react';
+import { forwardRef, HTMLAttributes, ReactNode } from 'react';
 import { cn } from '../../lib/utils';
 
 export interface CalloutProps extends HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger';
   title?: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
 }
 
 export const Callout = forwardRef<HTMLDivElement, CalloutProps>(

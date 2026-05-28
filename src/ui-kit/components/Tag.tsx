@@ -1,11 +1,11 @@
-import { forwardRef, HTMLAttributes } from 'react';
+import { forwardRef, HTMLAttributes, ReactNode } from 'react';
 import { cn } from '../../lib/utils';
 
 export interface TagProps extends HTMLAttributes<HTMLSpanElement> {
   variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger';
   minimal?: boolean;
   round?: boolean;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   onRemove?: () => void;
 }
 
