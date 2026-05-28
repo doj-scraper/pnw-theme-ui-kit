@@ -77,6 +77,7 @@ export type { ThemeName, ThemeMode, ThemeTokens, ThemeConfig } from './theme/typ
 
 // Pages
 export { default as CrodaDashboard } from './pages/CrodaDashboard';
+export { default as ComponentDocs } from './pages/ComponentDocs';
 
 // Utilities
 export { cn } from '../lib/utils';
