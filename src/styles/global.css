@@ -1,86 +1,173 @@
 @import "tailwindcss";
 
-/* Canopy Theme */
+/* ──────────────────────────────────────────────────────────────────────────
+   THEME TOKEN MAPPING
+   Maps the runtime CSS variables (set per [data-theme]) to Tailwind color &
+   font utilities. This is what makes classes like `bg-surface`, `text-text`,
+   `text-muted`, `bg-primary`, `font-header`, and `font-mono` resolve.
+   ────────────────────────────────────────────────────────────────────────── */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text: var(--text);
+  --color-primary: var(--primary);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+
+  /* Semantic signal colors (shared across palettes) */
+  --color-signal-amber: var(--signal-amber);
+  --color-signal-cobalt: var(--signal-cobalt);
+  --color-signal-success: var(--signal-success);
+  --color-signal-danger: var(--signal-danger);
+
+  --font-header: var(--font-header-stack);
+  --font-body: var(--font-body-stack);
+  --font-mono: var(--font-mono-stack);
+}
+
+/* Shared cross-theme defaults */
+:root {
+  --signal-amber: #f59e0b;
+  --signal-cobalt: #60a5fa;
+  --signal-success: #22c55e;
+  --signal-danger: #ef4444;
+
+  --font-header-stack: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --font-body-stack: "Inter", system-ui, sans-serif;
+  --font-mono-stack: "Share Tech Mono", "Geist Mono", ui-monospace, monospace;
+}
+
+/* ── Canopy Theme (Timberline Canopy) ────────────────────────────────────── */
 [data-theme="canopy"] {
-  --bg: #F2F4F1;
-  --surface: #E5EAE4;
-  --text: #14231C;
-  --primary: #2D5A43;
-  --muted: #5E8C6A;
+  --bg: #f2f4f1;
+  --surface: #e5eae4;
+  --surface-2: #d8e0d6;
+  --text: #14231c;
+  --primary: #2d5a43;
+  --muted: #5e8c6a;
+  --line: #c6d2c5;
+  --font-header-stack: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-body-stack: "Inter", sans-serif;
 }
-
 [data-theme="canopy"].dark {
-  --bg: #0B100D;
-  --surface: #131C18;
-  --text: #E4EAE6;
-  --primary: #4A8B64;
-  --muted: #7A9385;
+  --bg: #0b100d;
+  --surface: #131c18;
+  --surface-2: #1a2620;
+  --text: #e4eae6;
+  --primary: #4a8b64;
+  --muted: #7a9385;
+  --line: #223029;
 }
 
-/* Monolith Theme */
+/* ── Monolith Theme (Haystack Monolith) ──────────────────────────────────── */
 [data-theme="monolith"] {
-  --bg: #EFECE6;
-  --surface: #E2DDD5;
-  --text: #1E252B;
-  --primary: #3A525C;
-  --muted: #6B7F88;
+  --bg: #efece6;
+  --surface: #e2ddd5;
+  --surface-2: #d5cfc4;
+  --text: #1e252b;
+  --primary: #3a525c;
+  --muted: #6b7f88;
+  --line: #cabfb2;
+  --font-header-stack: "Space Grotesk", sans-serif;
+  --font-body-stack: system-ui, -apple-system, sans-serif;
 }
-
 [data-theme="monolith"].dark {
-  --bg: #11161A;
-  --surface: #1A2127;
-  --text: #ECEFF1;
+  --bg: #11161a;
+  --surface: #1a2127;
+  --surface-2: #232c33;
+  --text: #eceff1;
   --primary: #527987;
-  --muted: #90A4AE;
+  --muted: #90a4ae;
+  --line: #2c373f;
 }
 
-/* Basalt Theme */
+/* ── Basalt Theme (Alvord Basalt) ────────────────────────────────────────── */
 [data-theme="basalt"] {
-  --bg: #EAEAEA;
-  --surface: #DDDDDD;
+  --bg: #eaeaea;
+  --surface: #dddddd;
+  --surface-2: #cfcfcf;
   --text: #121212;
-  --primary: #C26D09;
+  --primary: #c26d09;
   --muted: #666666;
+  --line: #c2c2c2;
+  --font-header-stack: "Geist", "Geist Sans", sans-serif;
+  --font-body-stack: "Geist Mono", monospace;
 }
-
 [data-theme="basalt"].dark {
   --bg: #090909;
   --surface: #161616;
-  --text: #E4E4E7;
-  --primary: #F59E0B;
-  --muted: #71717A;
+  --surface-2: #1f1f1f;
+  --text: #e4e4e7;
+  --primary: #f59e0b;
+  --muted: #71717a;
+  --line: #262626;
 }
 
-/* Blueprint Theme */
+/* ── Blueprint Theme (Blueprint Core) ────────────────────────────────────── */
 [data-theme="blueprint"] {
-  --bg: #E1E8ED;
-  --surface: #F5F8FA;
-  --text: #1C2127;
-  --primary: #106BA3;
-  --muted: #5C7080;
+  --bg: #e1e8ed;
+  --surface: #f5f8fa;
+  --surface-2: #e8eef2;
+  --text: #1c2127;
+  --primary: #106ba3;
+  --muted: #5c7080;
+  --line: #ced9e0;
+  --font-header-stack: -apple-system, "Inter", "Segoe UI", sans-serif;
+  --font-body-stack: -apple-system, "Inter", "Segoe UI", sans-serif;
 }
-
 [data-theme="blueprint"].dark {
   --bg: #293742;
-  --surface: #30404D;
-  --text: #F5F8FA;
-  --primary: #2B95D6;
-  --muted: #8A9BA8;
+  --surface: #30404d;
+  --surface-2: #3b4a57;
+  --text: #f5f8fa;
+  --primary: #2b95d6;
+  --muted: #8a9ba8;
+  --line: #3d4c59;
 }
 
-/* CRODA Theme (4th palette) */
-[data-theme="croda"] {
-  --bg: #F5F3F0;
-  --surface: #EBE7E1;
-  --text: #2B2520;
-  --primary: #8B5A3C;
-  --muted: #A67C52;
+/* ── Foundry Theme (fern/void — from pal2) ───────────────────────────────── */
+[data-theme="foundry"] {
+  --bg: #f4f7f4;
+  --surface: #ffffff;
+  --surface-2: #eaf1ec;
+  --text: #0c1711;
+  --primary: #0f9d63;
+  --muted: #4e7361;
+  --line: #d2e0d7;
+  --font-header-stack: "Barlow Condensed", sans-serif;
+  --font-body-stack: "DM Sans", sans-serif;
+  --font-mono-stack: "Share Tech Mono", ui-monospace, monospace;
+}
+[data-theme="foundry"].dark {
+  --bg: #030704;
+  --surface: #070c09;
+  --surface-2: #101c15;
+  --text: #edf7f1;
+  --primary: #10b981;
+  --muted: #7aa88c;
+  --line: #1b2e23;
+  --font-header-stack: "Barlow Condensed", sans-serif;
+  --font-body-stack: "DM Sans", sans-serif;
+  --font-mono-stack: "Share Tech Mono", ui-monospace, monospace;
 }
 
-[data-theme="croda"].dark {
-  --bg: #1A1815;
-  --surface: #2A2420;
-  --text: #F5F1ED;
-  --primary: #D4956F;
-  --muted: #B8956A;
+/* Base surface paint */
+html {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body-stack);
+}
+
+/* Thin diagnostic scrollbars */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  opacity: 0.4;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
 }
