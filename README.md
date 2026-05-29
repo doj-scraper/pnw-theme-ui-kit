@@ -1,150 +1,43 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Astro Starter Kit: Minimal
 
-# PNW Theme Showroom & UI Kit
-
-This project contains a complete UI component library with Pacific Northwest-inspired themes built on Blueprint.js.
-
-View your app in AI Studio: https://ai.studio/apps/0bb79d4b-bf13-473a-8ed0-6fbd29e86a88
-
-## 🎨 Features
-
-### 3 Custom PNW Themes + Blueprint Core
-- 🌲 **Timberline Canopy** - Forest greens with natural warmth
-- 🏔️ **Haystack Monolith** - Stone grays with architectural precision  
-- 🌋 **Alvord Basalt** - Volcanic blacks with amber accents
-- 🔷 **Blueprint Core** - Classic Blueprint design system
-
-Each theme includes dark and light mode variants (6 total theme variants).
-
-### Complete Component Library
-All components are pre-styled and theme-aware:
-- **Forms**: Button, Input, Select, FormGroup, DateRangeInput
-- **Layout**: Card
-- **Data**: Table, Tree, Tabs, Tag
-- **Feedback**: Callout, Dialog
-- **Theme**: ThemeProvider, useTheme hook
-
-## 🚀 Quick Start
-
-**Prerequisites:** Node.js
-
-1. Install dependencies:
-   ```bash
-   npm install --legacy-peer-deps
-   ```
-
-2. Set the `GEMINI_API_KEY` in `.env.local` to your Gemini API key
-
-3. Run the app:
-   ```bash
-   npm run dev
-   ```
-
-## 📚 UI Kit Documentation
-
-The complete UI kit is located in `src/ui-kit/`:
-
-```
-src/ui-kit/
-├── components/          # All UI components
-├── theme/              # Theme system & tokens
-├── index.ts            # Main exports
-├── README.md           # Full documentation
-└── EXAMPLES.md         # Usage examples
+```sh
+npm create astro@latest -- --template minimal
 ```
 
-### View the Showcase
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-To see all components with live theme switching, edit `src/main.tsx`:
+## 🚀 Project Structure
 
-```tsx
-// Uncomment these lines:
-import UIKitShowcase from './UIKitShowcase.tsx';
+Inside of your Astro project, you'll see the following folders and files:
 
-// And replace <App /> with:
-<UIKitShowcase />
+```text
+/
+├── public/
+├── src/
+│   └── pages/
+│       └── index.astro
+└── package.json
 ```
 
-Then run `npm run dev` and open http://localhost:3000
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
 
-## 💻 Using the UI Kit
+There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
 
-### Basic Setup
+Any static assets, like images, can be placed in the `public/` directory.
 
-```tsx
-import { ThemeProvider, Button, Card, Input } from './ui-kit';
+## 🧞 Commands
 
-function App() {
-  return (
-    <ThemeProvider>
-      <Card className="p-6">
-        <Input placeholder="Enter text..." />
-        <Button text="Submit" intent="primary" />
-      </Card>
-    </ThemeProvider>
-  );
-}
-```
+All commands are run from the root of the project, from a terminal:
 
-### Theme Switching
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-```tsx
-import { useTheme, themes } from './ui-kit';
+## 👀 Want to learn more?
 
-function MyComponent() {
-  const { theme, mode, setTheme, toggleMode } = useTheme();
-
-  return (
-    <div>
-      <select value={theme} onChange={(e) => setTheme(e.target.value)}>
-        {Object.values(themes).map(t => (
-          <option key={t.name} value={t.name}>{t.label}</option>
-        ))}
-      </select>
-      <button onClick={toggleMode}>
-        Toggle {mode === 'dark' ? 'Light' : 'Dark'} Mode
-      </button>
-    </div>
-  );
-}
-```
-
-## 📖 Documentation
-
-- **[UI Kit README](src/ui-kit/README.md)** - Complete component documentation
-- **[Usage Examples](src/ui-kit/EXAMPLES.md)** - Code examples for all components
-- **[Theme Tokens](src/ui-kit/theme/tokens.ts)** - Theme configuration
-
-## 🎯 Use Cases
-
-This UI kit is perfect for:
-- Building consistent multi-theme applications
-- Creating dashboards and admin panels
-- Rapid prototyping with pre-styled components
-- Projects requiring dark/light mode support
-- Applications needing a professional, cohesive design system
-
-## 🛠️ Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Type check with TypeScript
-
-## 📦 Tech Stack
-
-- **React 19** - UI framework
-- **TypeScript** - Type safety
-- **Blueprint.js** - Base component library
-- **Tailwind CSS v4** - Utility-first styling
-- **Vite** - Build tool
-
-## 🎨 Theme Customization
-
-Add your own theme by editing `src/ui-kit/theme/tokens.ts` and `src/index.css`. See the [UI Kit README](src/ui-kit/README.md) for details.
-
-## 📄 License
-
-Apache-2.0
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

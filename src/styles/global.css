@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+/* Canopy Theme */
+[data-theme="canopy"] {
+  --bg: #F2F4F1;
+  --surface: #E5EAE4;
+  --text: #14231C;
+  --primary: #2D5A43;
+  --muted: #5E8C6A;
+}
+
+[data-theme="canopy"].dark {
+  --bg: #0B100D;
+  --surface: #131C18;
+  --text: #E4EAE6;
+  --primary: #4A8B64;
+  --muted: #7A9385;
+}
+
+/* Monolith Theme */
+[data-theme="monolith"] {
+  --bg: #EFECE6;
+  --surface: #E2DDD5;
+  --text: #1E252B;
+  --primary: #3A525C;
+  --muted: #6B7F88;
+}
+
+[data-theme="monolith"].dark {
+  --bg: #11161A;
+  --surface: #1A2127;
+  --text: #ECEFF1;
+  --primary: #527987;
+  --muted: #90A4AE;
+}
+
+/* Basalt Theme */
+[data-theme="basalt"] {
+  --bg: #EAEAEA;
+  --surface: #DDDDDD;
+  --text: #121212;
+  --primary: #C26D09;
+  --muted: #666666;
+}
+
+[data-theme="basalt"].dark {
+  --bg: #090909;
+  --surface: #161616;
+  --text: #E4E4E7;
+  --primary: #F59E0B;
+  --muted: #71717A;
+}
+
+/* Blueprint Theme */
+[data-theme="blueprint"] {
+  --bg: #E1E8ED;
+  --surface: #F5F8FA;
+  --text: #1C2127;
+  --primary: #106BA3;
+  --muted: #5C7080;
+}
+
+[data-theme="blueprint"].dark {
+  --bg: #293742;
+  --surface: #30404D;
+  --text: #F5F8FA;
+  --primary: #2B95D6;
+  --muted: #8A9BA8;
+}
+
+/* CRODA Theme (4th palette) */
+[data-theme="croda"] {
+  --bg: #F5F3F0;
+  --surface: #EBE7E1;
+  --text: #2B2520;
+  --primary: #8B5A3C;
+  --muted: #A67C52;
+}
+
+[data-theme="croda"].dark {
+  --bg: #1A1815;
+  --surface: #2A2420;
+  --text: #F5F1ED;
+  --primary: #D4956F;
+  --muted: #B8956A;
+}

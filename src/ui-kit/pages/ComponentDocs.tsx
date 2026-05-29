@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { 
-  ThemeProvider, 
-  useTheme, 
-  Button, 
-  Input, 
-  Card, 
+import {
+  ThemeProvider,
+  useTheme,
+  Button,
+  Input,
+  Card,
   Select,
   Tag,
   Callout,
@@ -24,31 +24,68 @@ import {
   DialogFooter,
   StatusBar,
   StatusIndicator,
-  CrodaDashboard,
-  themesWithCroda,
-  cn
+  Checkbox,
+  Radio,
+  RadioGroup,
+  Switch,
+  Textarea,
+  Slider,
+  Tooltip,
+  Popover,
+  Accordion,
+  Breadcrumbs,
+  Pagination,
+  Avatar,
+  Badge,
+  Skeleton,
+  ToastProvider,
+  useToast,
+  ContextMenu,
+  CommandPalette,
+  cn,
 } from '../index';
 import { Moon, Sun, Copy, Check } from 'lucide-react';
 
-const components = [
+const componentsList = [
+  // Forms
   { id: 'button', name: 'Button', category: 'Forms' },
   { id: 'input', name: 'Input', category: 'Forms' },
+  { id: 'textarea', name: 'Textarea', category: 'Forms' },
   { id: 'select', name: 'Select', category: 'Forms' },
+  { id: 'checkbox', name: 'Checkbox', category: 'Forms' },
+  { id: 'radio', name: 'Radio', category: 'Forms' },
+  { id: 'switch', name: 'Switch', category: 'Forms' },
+  { id: 'slider', name: 'Slider', category: 'Forms' },
   { id: 'formgroup', name: 'FormGroup', category: 'Forms' },
+  // Layout
   { id: 'card', name: 'Card', category: 'Layout' },
+  { id: 'breadcrumbs', name: 'Breadcrumbs', category: 'Layout' },
+  { id: 'statusbar', name: 'StatusBar', category: 'Layout' },
+  // Navigation
   { id: 'tabs', name: 'Tabs', category: 'Navigation' },
+  { id: 'pagination', name: 'Pagination', category: 'Navigation' },
+  // Overlay
   { id: 'dialog', name: 'Dialog', category: 'Overlay' },
+  { id: 'tooltip', name: 'Tooltip', category: 'Overlay' },
+  { id: 'popover', name: 'Popover', category: 'Overlay' },
+  { id: 'accordion', name: 'Accordion', category: 'Overlay' },
+  // Data Display
   { id: 'tag', name: 'Tag', category: 'Data Display' },
+  { id: 'badge', name: 'Badge', category: 'Data Display' },
+  { id: 'avatar', name: 'Avatar', category: 'Data Display' },
+  { id: 'metriccard', name: 'MetricCard', category: 'Data Display' },
+  // Feedback
   { id: 'callout', name: 'Callout', category: 'Feedback' },
   { id: 'progressbar', name: 'ProgressBar', category: 'Feedback' },
-  { id: 'metriccard', name: 'MetricCard', category: 'Data Display' },
-  { id: 'statusbar', name: 'StatusBar', category: 'Layout' },
-  { id: 'dashboard', name: 'CRODA Dashboard', category: 'Examples' },
+  { id: 'skeleton', name: 'Skeleton', category: 'Feedback' },
+  // Interactions
+  { id: 'contextmenu', name: 'Context Menu', category: 'Interactions' },
+  { id: 'commandpalette', name: 'Command Palette', category: 'Interactions' },
 ];
 
-const categories = ['Forms', 'Layout', 'Navigation', 'Overlay', 'Data Display', 'Feedback', 'Examples'];
+const categories = ['Forms', 'Layout', 'Navigation', 'Overlay', 'Data Display', 'Feedback', 'Interactions'];
 
-function CodeBlock({ code, language = 'tsx' }: { code: string; language?: string }) {
+function CodeBlock({ code }: { code: string }) {
   const [copied, setCopied] = useState(false);
 
   const copy = () => {
@@ -66,464 +103,434 @@ function CodeBlock({ code, language = 'tsx' }: { code: string; language?: string
         {copied ? <Check className="w-4 h-4 text-primary" /> : <Copy className="w-4 h-4 text-muted" />}
       </button>
       <pre className="bg-surface border border-muted/20 rounded-lg p-4 overflow-x-auto text-sm">
-        <code className="text-text font-mono">{code}</code>
+        <code className="text-text font-mono text-xs">{code}</code>
       </pre>
     </div>
   );
 }
 
-function ComponentSection({ id, title, description, preview, code }: any) {
+function ComponentPreview({ id }: { id: string }) {
+  const { addToast } = useToast();
+  const [checkboxValue, setCheckboxValue] = useState(false);
+  const [radioValue, setRadioValue] = useState('1');
+  const [switchValue, setSwitchValue] = useState(false);
+  const [sliderValue, setSliderValue] = useState(50);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const previews: Record<string, { preview: React.ReactNode; code: string }> = {
+    button: {
+      preview: (
+        <div className="flex flex-wrap gap-3">
+          <Button text="Default" />
+          <Button text="Primary" variant="primary" />
+          <Button text="Success" variant="success" />
+          <Button text="Danger" variant="danger" />
+        </div>
+      ),
+      code: `<Button text="Default" />
+<Button text="Primary" variant="primary" />
+<Button text="Success" variant="success" />
+<Button text="Danger" variant="danger" />`,
+    },
+    input: {
+      preview: <Input placeholder="Enter text..." className="w-64" />,
+      code: `<Input placeholder="Enter text..." />`,
+    },
+    textarea: {
+      preview: <Textarea placeholder="Enter multiple lines..." className="w-64" />,
+      code: `<Textarea placeholder="Enter multiple lines..." />`,
+    },
+    select: {
+      preview: (
+        <Select
+          className="w-64"
+          options={[
+            { label: 'Option 1', value: '1' },
+            { label: 'Option 2', value: '2' },
+            { label: 'Option 3', value: '3' },
+          ]}
+        />
+      ),
+      code: `<Select options={[
+  { label: 'Option 1', value: '1' },
+  { label: 'Option 2', value: '2' },
+]} />`,
+    },
+    checkbox: {
+      preview: (
+        <div className="space-y-2">
+          <Checkbox label="Accept terms" checked={checkboxValue} onCheckedChange={setCheckboxValue} />
+          <Checkbox label="Subscribe to updates" />
+        </div>
+      ),
+      code: `<Checkbox label="Accept terms" />
+<Checkbox label="Subscribe to updates" />`,
+    },
+    radio: {
+      preview: (
+        <RadioGroup value={radioValue} onValueChange={setRadioValue}>
+          <Radio value="1" label="Option 1" />
+          <Radio value="2" label="Option 2" />
+          <Radio value="3" label="Option 3" />
+        </RadioGroup>
+      ),
+      code: `<RadioGroup value={value} onValueChange={setValue}>
+  <Radio value="1" label="Option 1" />
+  <Radio value="2" label="Option 2" />
+</RadioGroup>`,
+    },
+    switch: {
+      preview: <Switch label="Enable notifications" checked={switchValue} onCheckedChange={setSwitchValue} />,
+      code: `<Switch label="Enable notifications" />`,
+    },
+    slider: {
+      preview: <Slider min={0} max={100} value={sliderValue} onChange={(e) => setSliderValue(Number(e.target.value))} className="w-64" />,
+      code: `<Slider min={0} max={100} />`,
+    },
+    formgroup: {
+      preview: (
+        <div className="w-64">
+          <FormGroup label="Email" helperText="We'll never share your email.">
+            <Input type="email" placeholder="you@example.com" />
+          </FormGroup>
+        </div>
+      ),
+      code: `<FormGroup label="Email" helperText="We'll never share your email.">
+  <Input type="email" placeholder="you@example.com" />
+</FormGroup>`,
+    },
+    card: {
+      preview: (
+        <Card className="w-64 p-6">
+          <h3 className="font-bold mb-2">Card Title</h3>
+          <p className="text-sm text-muted">This is a card component with content.</p>
+        </Card>
+      ),
+      code: `<Card className="p-6">
+  <h3 className="font-bold mb-2">Card Title</h3>
+  <p className="text-sm text-muted">Content here</p>
+</Card>`,
+    },
+    breadcrumbs: {
+      preview: (
+        <Breadcrumbs
+          items={[
+            { label: 'Home', href: '#' },
+            { label: 'Components', href: '#' },
+            { label: 'Breadcrumbs' },
+          ]}
+        />
+      ),
+      code: `<Breadcrumbs items={[
+  { label: 'Home', href: '#' },
+  { label: 'Components', href: '#' },
+  { label: 'Breadcrumbs' },
+]} />`,
+    },
+    statusbar: {
+      preview: (
+        <StatusBar>
+          <StatusIndicator status="success" label="Connected" />
+          <StatusIndicator status="warning" label="Pending" />
+          <StatusIndicator status="error" label="Error" />
+        </StatusBar>
+      ),
+      code: `<StatusBar>
+  <StatusIndicator status="success" label="Connected" />
+  <StatusIndicator status="warning" label="Pending" />
+</StatusBar>`,
+    },
+    tabs: {
+      preview: (
+        <Tabs defaultValue="tab1" className="w-64">
+          <TabsList>
+            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+          <TabsContent value="tab2">Content 2</TabsContent>
+        </Tabs>
+      ),
+      code: `<Tabs defaultValue="tab1">
+  <TabsList>
+    <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+    <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+  </TabsList>
+  <TabsContent value="tab1">Content 1</TabsContent>
+</Tabs>`,
+    },
+    pagination: {
+      preview: <Pagination currentPage={currentPage} totalPages={5} onPageChange={setCurrentPage} />,
+      code: `<Pagination currentPage={page} totalPages={5} onPageChange={setPage} />`,
+    },
+    dialog: {
+      preview: (
+        <Dialog>
+          <Button text="Open Dialog" />
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Dialog Title</DialogTitle>
+              <DialogDescription>This is a dialog component.</DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button text="Close" variant="outline" />
+              <Button text="Confirm" variant="primary" />
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      ),
+      code: `<Dialog>
+  <Button text="Open Dialog" />
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Title</DialogTitle>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>`,
+    },
+    tooltip: {
+      preview: <Tooltip content="This is a tooltip">Hover me</Tooltip>,
+      code: `<Tooltip content="This is a tooltip">
+  Hover me
+</Tooltip>`,
+    },
+    popover: {
+      preview: <Popover trigger="Click me" content={<div className="text-sm">Popover content here</div>} />,
+      code: `<Popover trigger="Click me" content={<div>Content</div>} />`,
+    },
+    accordion: {
+      preview: (
+        <Accordion
+          items={[
+            { value: '1', trigger: 'Section 1', content: 'Content 1' },
+            { value: '2', trigger: 'Section 2', content: 'Content 2' },
+          ]}
+          className="w-64"
+        />
+      ),
+      code: `<Accordion items={[
+  { value: '1', trigger: 'Section 1', content: 'Content 1' },
+  { value: '2', trigger: 'Section 2', content: 'Content 2' },
+]} />`,
+    },
+    tag: {
+      preview: (
+        <div className="flex gap-2">
+          <Tag>Default</Tag>
+          <Tag variant="primary">Primary</Tag>
+          <Tag variant="success">Success</Tag>
+        </div>
+      ),
+      code: `<Tag>Default</Tag>
+<Tag variant="primary">Primary</Tag>
+<Tag variant="success">Success</Tag>`,
+    },
+    badge: {
+      preview: (
+        <div className="flex gap-2">
+          <Badge>Default</Badge>
+          <Badge variant="primary">Primary</Badge>
+          <Badge variant="success">Success</Badge>
+        </div>
+      ),
+      code: `<Badge>Default</Badge>
+<Badge variant="primary">Primary</Badge>
+<Badge variant="success">Success</Badge>`,
+    },
+    avatar: {
+      preview: (
+        <div className="flex gap-4">
+          <Avatar alt="User" fallback="JD" size="sm" />
+          <Avatar alt="User" fallback="JD" size="md" />
+          <Avatar alt="User" fallback="JD" size="lg" />
+        </div>
+      ),
+      code: `<Avatar alt="User" fallback="JD" size="sm" />
+<Avatar alt="User" fallback="JD" size="md" />
+<Avatar alt="User" fallback="JD" size="lg" />`,
+    },
+    metriccard: {
+      preview: (
+        <CardGrid>
+          <MetricCard label="Users" value="1,234" change="+12%" />
+          <MetricCard label="Revenue" value="$45.2K" change="+8%" />
+        </CardGrid>
+      ),
+      code: `<CardGrid>
+  <MetricCard label="Users" value="1,234" change="+12%" />
+  <MetricCard label="Revenue" value="$45.2K" change="+8%" />
+</CardGrid>`,
+    },
+    callout: {
+      preview: <Callout type="info" title="Info" message="This is an informational callout." />,
+      code: `<Callout type="info" title="Info" message="This is an informational callout." />`,
+    },
+    progressbar: {
+      preview: <ProgressBar value={65} className="w-64" />,
+      code: `<ProgressBar value={65} />`,
+    },
+    skeleton: {
+      preview: (
+        <div className="space-y-2 w-64">
+          <Skeleton variant="text" className="h-4" />
+          <Skeleton variant="text" className="h-4 w-5/6" />
+          <Skeleton variant="rect" className="h-32" />
+        </div>
+      ),
+      code: `<Skeleton variant="text" className="h-4" />
+<Skeleton variant="text" className="h-4 w-5/6" />
+<Skeleton variant="rect" className="h-32" />`,
+    },
+    contextmenu: {
+      preview: (
+        <ContextMenu
+          items={[
+            { label: 'Edit', onClick: () => alert('Edit') },
+            { label: 'Delete', onClick: () => alert('Delete') },
+            { divider: true },
+            { label: 'Copy', onClick: () => alert('Copy') },
+          ]}
+        >
+          <div className="p-4 border border-muted/30 rounded cursor-context-menu">Right-click me</div>
+        </ContextMenu>
+      ),
+      code: `<ContextMenu items={[
+  { label: 'Edit', onClick: () => {} },
+  { label: 'Delete', onClick: () => {} },
+]}>
+  <div>Right-click me</div>
+</ContextMenu>`,
+    },
+    commandpalette: {
+      preview: (
+        <div className="text-sm text-muted">
+          Press <kbd className="px-2 py-1 bg-surface rounded border border-muted/30">Cmd+K</kbd> to open
+        </div>
+      ),
+      code: `<CommandPalette items={[
+  { id: '1', label: 'Search', category: 'General' },
+  { id: '2', label: 'Settings', category: 'General' },
+]} />`,
+    },
+  };
+
+  const data = previews[id] || { preview: null, code: '' };
+
   return (
-    <div id={id} className="scroll-mt-20">
-      <h2 className="text-2xl font-header font-bold mb-2">{title}</h2>
-      <p className="text-muted mb-6">{description}</p>
-      
-      <div className="space-y-4">
-        <div>
-          <h3 className="text-sm font-semibold text-muted uppercase tracking-wider mb-3">Preview</h3>
-          <Card className="p-8 flex items-center justify-center">
-            {preview}
-          </Card>
-        </div>
-        
-        <div>
-          <h3 className="text-sm font-semibold text-muted uppercase tracking-wider mb-3">Code</h3>
-          <CodeBlock code={code} />
-        </div>
+    <div className="space-y-4">
+      <div>
+        <h3 className="text-sm font-semibold text-muted uppercase tracking-wider mb-3">Preview</h3>
+        <Card className="p-8 flex items-center justify-center min-h-48">{data.preview}</Card>
+      </div>
+      <div>
+        <h3 className="text-sm font-semibold text-muted uppercase tracking-wider mb-3">Code</h3>
+        <CodeBlock code={data.code} />
       </div>
     </div>
   );
 }
 
 function DocsContent() {
-  const { theme, mode, setTheme, toggleMode } = useTheme();
+  const { theme, setTheme, mode, toggleMode } = useTheme();
   const [activeComponent, setActiveComponent] = useState('button');
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-bg">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-muted/20 bg-surface/95 backdrop-blur">
-        <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 border-2 border-primary flex items-center justify-center">
-              <div className="w-2 h-2 bg-primary" />
-            </div>
-            <h1 className="text-xl font-header font-bold">PNW UI Kit</h1>
-          </div>
-          
-          <div className="flex items-center gap-3">
-            <Select
+      <header className="border-b border-[var(--surface)] sticky top-0 z-40 bg-[var(--bg)]/95 backdrop-blur">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <h1 className="text-2xl font-bold">Component Library</h1>
+          <div className="flex items-center gap-4">
+            <select
               value={theme}
               onChange={(e) => setTheme(e.target.value as any)}
-              className="w-48"
+              className="px-3 py-2 rounded-lg bg-[var(--surface)] border border-[var(--muted)]/30 text-sm"
             >
-              {Object.values(themesWithCroda).map(t => (
-                <option key={t.name} value={t.name}>{t.label}</option>
-              ))}
-            </Select>
-            
-            <Button
-              variant="ghost"
-              size="sm"
-              icon={mode === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              <option value="canopy">Canopy</option>
+              <option value="monolith">Monolith</option>
+              <option value="basalt">Basalt</option>
+              <option value="blueprint">Blueprint</option>
+            </select>
+            <button
               onClick={toggleMode}
-            />
+              className="px-3 py-2 rounded-lg bg-[var(--surface)] hover:bg-[var(--muted)]/10 transition-colors"
+            >
+              {mode === 'light' ? '🌙' : '☀️'}
+            </button>
           </div>
         </div>
       </header>
 
-      <div className="container mx-auto px-6 py-8 flex gap-8">
+      <div className="max-w-7xl mx-auto px-6 py-8 flex gap-8">
         {/* Sidebar */}
-        <aside className="w-64 flex-shrink-0 sticky top-24 h-fit">
-          <nav className="space-y-6">
-            {categories.map(category => {
-              const items = components.filter(c => c.category === category);
-              if (items.length === 0) return null;
-              
-              return (
-                <div key={category}>
-                  <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
-                    {category}
-                  </h3>
-                  <ul className="space-y-1">
-                    {items.map(comp => (
-                      <li key={comp.id}>
-                        <button
-                          onClick={() => setActiveComponent(comp.id)}
-                          className={cn(
-                            'w-full text-left px-3 py-1.5 rounded text-sm transition-colors',
-                            activeComponent === comp.id
-                              ? 'bg-primary/10 text-primary font-medium'
-                              : 'text-text hover:bg-muted/10'
-                          )}
-                        >
-                          {comp.name}
-                        </button>
-                      </li>
+        <aside className="w-64 flex-shrink-0">
+          <div className="sticky top-24 space-y-6">
+            {categories.map((cat) => (
+              <div key={cat}>
+                <h3 className="text-xs font-bold text-[var(--muted)] uppercase tracking-wider mb-2">{cat}</h3>
+                <div className="space-y-1">
+                  {componentsList
+                    .filter((c) => c.category === cat)
+                    .map((comp) => (
+                      <button
+                        key={comp.id}
+                        onClick={() => setActiveComponent(comp.id)}
+                        className={cn(
+                          'w-full text-left px-3 py-2 rounded-lg text-sm transition-colors',
+                          activeComponent === comp.id
+                            ? 'bg-[var(--primary)] text-white'
+                            : 'hover:bg-[var(--surface)] text-[var(--text)]'
+                        )}
+                      >
+                        {comp.name}
+                      </button>
                     ))}
-                  </ul>
                 </div>
-              );
-            })}
-          </nav>
+              </div>
+            ))}
+          </div>
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 max-w-4xl space-y-16">
-          {activeComponent === 'button' && (
-            <ComponentSection
-              id="button"
-              title="Button"
-              description="Buttons trigger actions and events."
-              preview={
-                <div className="flex flex-wrap gap-3">
-                  <Button text="Default" />
-                  <Button text="Primary" variant="primary" />
-                  <Button text="Success" variant="success" />
-                  <Button text="Warning" variant="warning" />
-                  <Button text="Danger" variant="danger" />
-                  <Button text="Outline" variant="outline" />
-                  <Button text="Ghost" variant="ghost" />
-                </div>
-              }
-              code={`import { Button } from './ui-kit';
-
-<Button text="Default" />
-<Button text="Primary" variant="primary" />
-<Button text="Success" variant="success" />
-<Button text="Warning" variant="warning" />
-<Button text="Danger" variant="danger" />`}
-            />
-          )}
-
-          {activeComponent === 'input' && (
-            <ComponentSection
-              id="input"
-              title="Input"
-              description="Text input fields for user data entry."
-              preview={
-                <div className="w-full max-w-md space-y-4">
-                  <Input placeholder="Basic input..." />
-                  <Input leftIcon={<span>🔍</span>} placeholder="With left icon..." />
-                  <Input rightElement={<Button size="sm" text="Go" />} placeholder="With right element..." />
-                </div>
-              }
-              code={`import { Input, Button } from './ui-kit';
-
-<Input placeholder="Basic input..." />
-<Input leftIcon={<SearchIcon />} placeholder="With left icon..." />
-<Input rightElement={<Button size="sm" text="Go" />} placeholder="With right element..." />`}
-            />
-          )}
-
-          {activeComponent === 'select' && (
-            <ComponentSection
-              id="select"
-              title="Select"
-              description="Dropdown selection component."
-              preview={
-                <Select className="w-64" options={[
-                  { label: 'Option 1', value: '1' },
-                  { label: 'Option 2', value: '2' },
-                  { label: 'Option 3', value: '3' },
-                ]} />
-              }
-              code={`import { Select } from './ui-kit';
-
-<Select options={[
-  { label: 'Option 1', value: '1' },
-  { label: 'Option 2', value: '2' },
-  { label: 'Option 3', value: '3' },
-]} />`}
-            />
-          )}
-
-          {activeComponent === 'formgroup' && (
-            <ComponentSection
-              id="formgroup"
-              title="FormGroup"
-              description="Wrapper for form fields with labels and helper text."
-              preview={
-                <div className="w-full max-w-md space-y-4">
-                  <FormGroup label="Email" helperText="We'll never share your email.">
-                    <Input type="email" placeholder="you@example.com" />
-                  </FormGroup>
-                  <FormGroup label="Password" error="Password is required">
-                    <Input type="password" placeholder="••••••••" />
-                  </FormGroup>
-                </div>
-              }
-              code={`import { FormGroup, Input } from './ui-kit';
-
-<FormGroup label="Email" helperText="We'll never share your email.">
-  <Input type="email" placeholder="you@example.com" />
-</FormGroup>
-
-<FormGroup label="Password" error="Password is required">
-  <Input type="password" placeholder="••••••••" />
-</FormGroup>`}
-            />
-          )}
-
-          {activeComponent === 'card' && (
-            <ComponentSection
-              id="card"
-              title="Card"
-              description="Container component for grouping content."
-              preview={
-                <Card className="w-full max-w-md p-6">
-                  <h3 className="text-lg font-semibold mb-2">Card Title</h3>
-                  <p className="text-muted">This is a card component with some content inside.</p>
-                </Card>
-              }
-              code={`import { Card } from './ui-kit';
-
-<Card className="p-6">
-  <h3 className="text-lg font-semibold mb-2">Card Title</h3>
-  <p className="text-muted">Card content goes here.</p>
-</Card>`}
-            />
-          )}
-
-          {activeComponent === 'tabs' && (
-            <ComponentSection
-              id="tabs"
-              title="Tabs"
-              description="Organize content into tabbed sections."
-              preview={
-                <Tabs defaultValue="tab1" className="w-full max-w-md">
-                  <TabsList>
-                    <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-                    <TabsTrigger value="tab2">Tab 2</TabsTrigger>
-                    <TabsTrigger value="tab3">Tab 3</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="tab1">Content for tab 1</TabsContent>
-                  <TabsContent value="tab2">Content for tab 2</TabsContent>
-                  <TabsContent value="tab3">Content for tab 3</TabsContent>
-                </Tabs>
-              }
-              code={`import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui-kit';
-
-<Tabs defaultValue="tab1">
-  <TabsList>
-    <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-    <TabsTrigger value="tab2">Tab 2</TabsTrigger>
-  </TabsList>
-  <TabsContent value="tab1">Content 1</TabsContent>
-  <TabsContent value="tab2">Content 2</TabsContent>
-</Tabs>`}
-            />
-          )}
-
-          {activeComponent === 'dialog' && (
-            <ComponentSection
-              id="dialog"
-              title="Dialog"
-              description="Modal dialog for important interactions."
-              preview={
-                <>
-                  <Button text="Open Dialog" onClick={() => setDialogOpen(true)} />
-                  <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Dialog Title</DialogTitle>
-                        <DialogDescription>
-                          This is a dialog description explaining what this dialog is for.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="py-4">
-                        <Input placeholder="Enter something..." />
-                      </div>
-                      <DialogFooter>
-                        <Button text="Cancel" variant="ghost" onClick={() => setDialogOpen(false)} />
-                        <Button text="Confirm" variant="primary" onClick={() => setDialogOpen(false)} />
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                </>
-              }
-              code={`import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, Button } from './ui-kit';
-
-const [open, setOpen] = useState(false);
-
-<Button text="Open Dialog" onClick={() => setOpen(true)} />
-
-<Dialog open={open} onOpenChange={setOpen}>
-  <DialogContent>
-    <DialogHeader>
-      <DialogTitle>Dialog Title</DialogTitle>
-      <DialogDescription>Dialog description</DialogDescription>
-    </DialogHeader>
-    <DialogFooter>
-      <Button text="Cancel" onClick={() => setOpen(false)} />
-      <Button text="Confirm" variant="primary" />
-    </DialogFooter>
-  </DialogContent>
-</Dialog>`}
-            />
-          )}
-
-          {activeComponent === 'tag' && (
-            <ComponentSection
-              id="tag"
-              title="Tag"
-              description="Labels and badges for categorization."
-              preview={
-                <div className="flex flex-wrap gap-2">
-                  <Tag>Default</Tag>
-                  <Tag variant="primary">Primary</Tag>
-                  <Tag variant="success">Success</Tag>
-                  <Tag variant="warning">Warning</Tag>
-                  <Tag variant="danger">Danger</Tag>
-                  <Tag minimal>Minimal</Tag>
-                  <Tag round>Round</Tag>
-                  <Tag onRemove={() => {}}>Removable</Tag>
-                </div>
-              }
-              code={`import { Tag } from './ui-kit';
-
-<Tag>Default</Tag>
-<Tag variant="primary">Primary</Tag>
-<Tag variant="success">Success</Tag>
-<Tag minimal>Minimal</Tag>
-<Tag round>Round</Tag>
-<Tag onRemove={() => {}}>Removable</Tag>`}
-            />
-          )}
-
-          {activeComponent === 'callout' && (
-            <ComponentSection
-              id="callout"
-              title="Callout"
-              description="Alert boxes for important messages."
-              preview={
-                <div className="w-full space-y-3">
-                  <Callout title="Default" variant="default">This is a default callout.</Callout>
-                  <Callout title="Primary" variant="primary">This is a primary callout.</Callout>
-                  <Callout title="Success" variant="success">Operation completed successfully!</Callout>
-                  <Callout title="Warning" variant="warning">Please review before proceeding.</Callout>
-                  <Callout title="Danger" variant="danger">An error occurred.</Callout>
-                </div>
-              }
-              code={`import { Callout } from './ui-kit';
-
-<Callout title="Success" variant="success">
-  Operation completed successfully!
-</Callout>
-
-<Callout title="Warning" variant="warning">
-  Please review before proceeding.
-</Callout>`}
-            />
-          )}
-
-          {activeComponent === 'progressbar' && (
-            <ComponentSection
-              id="progressbar"
-              title="ProgressBar"
-              description="Visual progress indicator."
-              preview={
-                <div className="w-full space-y-4">
-                  <ProgressBar value={25} label="25% Complete" />
-                  <ProgressBar value={50} label="50% Complete" color="#f59e0b" />
-                  <ProgressBar value={75} label="75% Complete" color="#10b981" />
-                  <ProgressBar value={100} label="Complete" />
-                </div>
-              }
-              code={`import { ProgressBar } from './ui-kit';
-
-<ProgressBar value={25} label="25% Complete" />
-<ProgressBar value={50} color="#f59e0b" />
-<ProgressBar value={75} color="#10b981" />
-<ProgressBar value={100} label="Complete" />`}
-            />
-          )}
-
-          {activeComponent === 'metriccard' && (
-            <ComponentSection
-              id="metriccard"
-              title="MetricCard"
-              description="Display metrics and statistics."
-              preview={
-                <CardGrid columns={2}>
-                  <MetricCard title="Revenue" value={85} description="Total revenue this month" />
-                  <MetricCard title="Users" value={92} description="Active users" color="#10b981" />
-                </CardGrid>
-              }
-              code={`import { MetricCard, CardGrid } from './ui-kit';
-
-<CardGrid columns={2}>
-  <MetricCard 
-    title="Revenue" 
-    value={85} 
-    description="Total revenue this month" 
-  />
-  <MetricCard 
-    title="Users" 
-    value={92} 
-    description="Active users" 
-    color="#10b981" 
-  />
-</CardGrid>`}
-            />
-          )}
-
-          {activeComponent === 'statusbar' && (
-            <ComponentSection
-              id="statusbar"
-              title="StatusBar"
-              description="Footer status bar with indicators."
-              preview={
-                <StatusBar className="w-full">
-                  <StatusIndicator status="active">System Online</StatusIndicator>
-                  <StatusIndicator status="warning">2 Warnings</StatusIndicator>
-                  <div className="ml-auto text-xs">v1.0.0</div>
-                </StatusBar>
-              }
-              code={`import { StatusBar, StatusIndicator } from './ui-kit';
-
-<StatusBar>
-  <StatusIndicator status="active">System Online</StatusIndicator>
-  <StatusIndicator status="warning">2 Warnings</StatusIndicator>
-  <div className="ml-auto">v1.0.0</div>
-</StatusBar>`}
-            />
-          )}
-
-          {activeComponent === 'dashboard' && (
-            <div id="dashboard" className="scroll-mt-20">
-              <h2 className="text-2xl font-header font-bold mb-2">CRODA Dashboard</h2>
-              <p className="text-muted mb-6">Full-featured dashboard example using all UI kit components.</p>
-              
-              <div className="space-y-4">
-                <div>
-                  <h3 className="text-sm font-semibold text-muted uppercase tracking-wider mb-3">Live Demo</h3>
-                  <div className="border border-muted/20 rounded-lg overflow-hidden">
-                    <div className="h-[600px]">
-                      <CrodaDashboard />
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="text-sm font-semibold text-muted uppercase tracking-wider mb-3">Usage</h3>
-                  <CodeBlock code={`import { CrodaDashboard } from './ui-kit';
-
-// Use as a standalone page
-<CrodaDashboard />
-
-// Or import individual components:
-import { 
-  Dropdown, 
-  NavTabs, 
-  EntityList, 
-  MetricCard,
-  StatusBar 
-} from './ui-kit';`} />
-                </div>
+        <main className="flex-1 max-w-4xl space-y-8">
+          {componentsList.find((c) => c.id === activeComponent) && (
+            <>
+              <div>
+                <h2 className="text-3xl font-bold mb-2">
+                  {componentsList.find((c) => c.id === activeComponent)?.name}
+                </h2>
+                <p className="text-[var(--muted)]">
+                  {activeComponent === 'button' && 'Buttons trigger actions and events.'}
+                  {activeComponent === 'input' && 'Text input fields for user data entry.'}
+                  {activeComponent === 'textarea' && 'Multi-line text input for longer content.'}
+                  {activeComponent === 'select' && 'Dropdown selection component.'}
+                  {activeComponent === 'checkbox' && 'Checkbox for boolean selections.'}
+                  {activeComponent === 'radio' && 'Radio buttons for single selection.'}
+                  {activeComponent === 'switch' && 'Toggle switch for on/off states.'}
+                  {activeComponent === 'slider' && 'Range slider for numeric input.'}
+                  {activeComponent === 'formgroup' && 'Wrapper for form fields with labels.'}
+                  {activeComponent === 'card' && 'Container component for content.'}
+                  {activeComponent === 'breadcrumbs' && 'Navigation trail showing hierarchy.'}
+                  {activeComponent === 'statusbar' && 'Status indicators for system state.'}
+                  {activeComponent === 'tabs' && 'Tabbed interface for content organization.'}
+                  {activeComponent === 'pagination' && 'Page navigation component.'}
+                  {activeComponent === 'dialog' && 'Modal dialog for user interaction.'}
+                  {activeComponent === 'tooltip' && 'Hover information display.'}
+                  {activeComponent === 'popover' && 'Click-triggered overlay content.'}
+                  {activeComponent === 'accordion' && 'Collapsible content sections.'}
+                  {activeComponent === 'tag' && 'Labels and categorization.'}
+                  {activeComponent === 'badge' && 'Notification indicators.'}
+                  {activeComponent === 'avatar' && 'User profile images.'}
+                  {activeComponent === 'metriccard' && 'Data display cards.'}
+                  {activeComponent === 'callout' && 'Alert and information boxes.'}
+                  {activeComponent === 'progressbar' && 'Progress indication.'}
+                  {activeComponent === 'skeleton' && 'Loading placeholders.'}
+                  {activeComponent === 'contextmenu' && 'Right-click context menu.'}
+                  {activeComponent === 'commandpalette' && 'Keyboard command palette (Cmd+K).'}
+                </p>
               </div>
-            </div>
+              <ComponentPreview id={activeComponent} />
+            </>
           )}
         </main>
       </div>
@@ -533,8 +540,10 @@ import {
 
 export default function ComponentDocs() {
   return (
-    <ThemeProvider>
-      <DocsContent />
-    </ThemeProvider>
+    <ToastProvider>
+      <ThemeProvider>
+        <DocsContent />
+      </ThemeProvider>
+    </ToastProvider>
   );
 }
