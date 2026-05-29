@@ -89,4 +89,26 @@ export const themes: Record<string, ThemeConfig> = {
       fontBody: '-apple-system, "Inter", "Segoe UI", sans-serif',
     },
   },
+  foundry: {
+    name: 'foundry',
+    label: 'Foundry Fern (Agentic)',
+    light: {
+      bg: '#F4F7F4',
+      surface: '#FFFFFF',
+      text: '#0C1711',
+      primary: '#0F9D63',
+      muted: '#4E7361',
+      fontHeader: '"Barlow Condensed", sans-serif',
+      fontBody: '"DM Sans", sans-serif',
+    },
+    dark: {
+      bg: '#030704',
+      surface: '#070C09',
+      text: '#EDF7F1',
+      primary: '#10B981',
+      muted: '#7AA88C',
+      fontHeader: '"Barlow Condensed", sans-serif',
+      fontBody: '"DM Sans", sans-serif',
+    },
+  },
 };

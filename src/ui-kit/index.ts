@@ -118,13 +118,37 @@ export type { ContextMenuProps, ContextMenuItem } from './components/ContextMenu
 export { CommandPalette } from './components/CommandPalette';
 export type { CommandPaletteProps, CommandItem } from './components/CommandPalette';
 
+// Graph / Workflow (agentic + event-driven systems)
+export { NodeStatus, nodeStatusColor } from './components/NodeStatus';
+export type { NodeStatusProps, NodeStatusValue } from './components/NodeStatus';
+
+export { AgentNode } from './components/AgentNode';
+export type { AgentNodeProps, AgentTool } from './components/AgentNode';
+
+export { GraphCanvas } from './components/GraphCanvas';
+export type { GraphCanvasProps, GraphNodeInput, GraphNodeVariant } from './components/GraphCanvas';
+
+export { GraphNode } from './components/GraphNode';
+export type { GraphNodeProps } from './components/GraphNode';
+
+export { Pipeline } from './components/Pipeline';
+export type { PipelineProps, PipelineStage } from './components/Pipeline';
+
+export { CircuitBreaker } from './components/CircuitBreaker';
+export type { CircuitBreakerProps, CircuitState } from './components/CircuitBreaker';
+
+export { EventStream } from './components/EventStream';
+export type { EventStreamProps, StreamEvent, EventLevel } from './components/EventStream';
+
+export { DeliverableCard } from './components/DeliverableCard';
+export type { DeliverableCardProps, DeliverableStatus } from './components/DeliverableCard';
+
 export { ThemeProvider, useTheme } from './theme/ThemeProvider';
 export { themes } from './theme/tokens';
-export { crodaTheme, themesWithCroda } from './theme/croda';
 export type { ThemeName, ThemeMode, ThemeTokens, ThemeConfig } from './theme/types';
 
 // Pages
-export { default as CrodaDashboard } from './pages/CrodaDashboard';
+export { default as FoundryWorkspace } from './pages/FoundryWorkspace';
 export { default as ComponentDocs } from './pages/ComponentDocs';
 
 // Utilities
